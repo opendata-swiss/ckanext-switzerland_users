@@ -17,7 +17,7 @@ from flask import Blueprint
 
 log = logging.getLogger(__name__)
 
-user = Blueprint("ogdch_user", __name__, url_prefix="/user")
+user = Blueprint("ogdch_users_blueprint", __name__, url_prefix="/user")
 
 
 def index():
@@ -69,3 +69,6 @@ def index():
 
     extra_vars: dict[str, Any] = {"page": page, "q": q, "order_by": order_by}
     return base.render("user/list.html", extra_vars)
+
+
+user.add_url_rule("/", view_func=index, strict_slashes=False)

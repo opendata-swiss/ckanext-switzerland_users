@@ -6,6 +6,7 @@ from ckan.lib.plugins import DefaultTranslation
 
 from ckanext.switzerland_users import helpers as ogdch_user_helpers
 from ckanext.switzerland_users import logic as ogdch_user_logic
+from ckanext.switzerland_users.blueprints import user as ogdch_user_blueprint
 
 log = logging.getLogger(__name__)
 
@@ -49,26 +50,12 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
     # IBlueprint
 
     def get_blueprint(self):
-        return []
+        return [ogdch_user_blueprint]
 
     # IRouter
 
     def before_map(self, map):
         """adding custom routes to the ckan mapping"""
-
-        map.connect(
-            "user_index",
-            "/user/",
-            controller="ckanext.switzerland_users.controllers:OgdchUserController",
-            action="index",
-        )
-
-        map.connect(
-            "/user",
-            controller="ckanext.switzerland_users.controllers:OgdchUserController",
-            action="index",
-        )
-
         map.connect(
             "/users_csv",
             controller="ckanext.switzerland_users.controllers:OgdchUserController",
