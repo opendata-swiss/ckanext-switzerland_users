@@ -4,7 +4,7 @@ from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for
 
 
 def ogdch_list_user(user, maxlength=0):
-    """display user in user list"""
+    """Display user in user list"""
     user_memberships = user.get("memberships", [])
     memberships_display = []
     if not user.get("sysadmin"):
@@ -33,7 +33,7 @@ def ogdch_list_user(user, maxlength=0):
 
 
 def ogdch_display_memberships(user):
-    """format user memberships for writing to csv"""
+    """Format user memberships for writing to csv"""
     user_memberships = user.get("memberships", [])
     memberships_display = []
     if user.get("sysadmin"):
