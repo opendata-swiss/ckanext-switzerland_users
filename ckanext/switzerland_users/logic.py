@@ -14,8 +14,9 @@ log = logging.getLogger(__name__)
 
 
 def get_username_dict():
-    """get users with only minimal attributes and a simple query to
-    avoid preformance issues"""
+    """Get users with only minimal attributes and a simple query to avoid performance
+    issues
+    """
     users = model.Session.query(model.User).all()
     user_dict = {user.name: user for user in users}
     return user_dict
@@ -92,7 +93,7 @@ def ogdch_get_admin_organizations_for_user(context, data_dict):
 
 
 def ogdch_user_list(context, data_dict):
-    """custom user list for ogdch: list users that are visible to the current
+    """Custom user list for ogdch: list users that are visible to the current
     user
     - for sysadmins: list all users
     - for organization admins: list all users of their organizations
@@ -117,11 +118,11 @@ def ogdch_user_list(context, data_dict):
     )
     user_list = [
         {
-            "name": username,
-            "id": username_dict[username].id,
-            "sysadmin": username_dict[username].sysadmin,
-            "email": username_dict[username].email,
-            "memberships": membership_dict.get(username_dict[username].id, []),
+            "name": username[0],
+            "id": username_dict[username[0]].id,
+            "sysadmin": username_dict[username[0]].sysadmin,
+            "email": username_dict[username[0]].email,
+            "memberships": membership_dict.get(username_dict[username[0]].id, []),
         }
         for username in user_list_names_only
     ]
