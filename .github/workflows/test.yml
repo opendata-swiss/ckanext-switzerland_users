@@ -57,6 +57,8 @@ jobs:
           pip install -e .
           pip install -e git+https://github.com/ckan/ckanext-hierarchy.git#egg=ckanext-hierarchy
           pip install -r https://raw.githubusercontent.com/ckan/ckanext-hierarchy/master/requirements.txt
+          pip install -e git+https://github.com/opendata-swiss/ckanext-switzerland-ng.git@upgrade_to_python3_ckan2_11#egg=ckanext-switzerland
+          pip install -r https://raw.githubusercontent.com/opendata-swiss/ckanext-switzerland-ng/refs/heads/upgrade_to_python3_ckan2_11/requirements.txt
           # Replace default path to CKAN core config file with the one on the container
           sed -i -e 's/use = config:.*/use = config:\/srv\/app\/src\/ckan\/test-core.ini/' test.ini
 
