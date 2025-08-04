@@ -1,17 +1,18 @@
 # encoding: utf-8
 
+import csv
 import logging
 import re
-import csv
 from io import StringIO
 
-from ckan import authz
-from ckan.controllers.user import UserController
-from ckan.common import c, request, config, _
-from ckan.lib.base import render
 import ckan.plugins.toolkit as tk
-from ckanext.switzerland_users.helpers import ogdch_display_memberships
+from ckan import authz
+from ckan.common import _, c, config, request
+from ckan.controllers.user import UserController
+from ckan.lib.base import render
+
 from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for_display
+from ckanext.switzerland_users.helpers import ogdch_display_memberships
 
 log = logging.getLogger(__name__)
 

@@ -1,9 +1,10 @@
 # coding=UTF-8
 
 import logging
-from collections import namedtuple, defaultdict
-from ckan import authz, model
+from collections import defaultdict, namedtuple
+
 import ckan.plugins.toolkit as tk
+from ckan import authz, model
 
 Membership = namedtuple("Membership", ["organization", "capacity"])
 Organization = namedtuple("Organization", ["name", "title"])

@@ -1,11 +1,13 @@
 # coding=UTF-8
 
-import ckan.plugins as plugins
-from ckan.lib.plugins import DefaultTranslation
-import ckan.plugins.toolkit as toolkit
-from ckanext.switzerland_users import logic as ogdch_user_logic
-from ckanext.switzerland_users import helpers as ogdch_user_helpers
 import logging
+
+import ckan.plugins as plugins
+import ckan.plugins.toolkit as toolkit
+from ckan.lib.plugins import DefaultTranslation
+
+from ckanext.switzerland_users import helpers as ogdch_user_helpers
+from ckanext.switzerland_users import logic as ogdch_user_logic
 
 log = logging.getLogger(__name__)
 

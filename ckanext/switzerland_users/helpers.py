@@ -1,7 +1,8 @@
 # coding=UTF-8
 
-from webhelpers.html import tags
 from ckan.lib.helpers import url_for
+from webhelpers.html import tags
+
 from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for_display
 
 
