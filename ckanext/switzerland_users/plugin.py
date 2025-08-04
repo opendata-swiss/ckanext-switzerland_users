@@ -1,5 +1,3 @@
-# coding=UTF-8
-
 import logging
 
 import ckan.plugins as plugins
@@ -34,7 +32,7 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
         Expose new API methods
         """
         return {
-            "ogdch_get_admin_organizations_for_user": ogdch_user_logic.ogdch_get_admin_organizations_for_user,  # noqa
+            "ogdch_get_admin_organizations_for_user": ogdch_user_logic.ogdch_get_admin_organizations_for_user,
             "ogdch_user_list": ogdch_user_logic.ogdch_user_list,
         }
 
@@ -56,19 +54,19 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
         map.connect(
             "user_index",
             "/user/",
-            controller="ckanext.switzerland_users.controllers:OgdchUserController",  # noqa
+            controller="ckanext.switzerland_users.controllers:OgdchUserController",
             action="index",
         )
 
         map.connect(
             "/user",
-            controller="ckanext.switzerland_users.controllers:OgdchUserController",  # noqa
+            controller="ckanext.switzerland_users.controllers:OgdchUserController",
             action="index",
         )
 
         map.connect(
             "/users_csv",
-            controller="ckanext.switzerland_users.controllers:OgdchUserController",  # noqa
+            controller="ckanext.switzerland_users.controllers:OgdchUserController",
             action="csv",
         )
 

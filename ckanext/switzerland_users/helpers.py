@@ -1,5 +1,3 @@
-# coding=UTF-8
-
 from ckan.lib.helpers import link_to, url_for
 
 from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for_display
