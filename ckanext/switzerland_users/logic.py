@@ -53,9 +53,7 @@ def get_memberships(admin_organization_restriction, q_role, q_organization):
     else:
         organizations_ids = list(organizations_id_dict.keys())
     log.debug(
-        "get memberships with organization restriction {}".format(
-            organization_restrictions
-        )
+        f"get memberships with organization restriction {organization_restrictions}"
     )
     members = (
         model.Session.query(model.Member)
@@ -68,7 +66,7 @@ def get_memberships(admin_organization_restriction, q_role, q_organization):
     role_restrictions = []
     if q_role and q_role != CAPACITY_SYSADMIN:
         role_restrictions.append(q_role)
-    log.debug("get memberships with role restriction {}".format(role_restrictions))
+    log.debug(f"get memberships with role restriction {role_restrictions}")
     for member in members:
         if not role_restrictions or member.capacity in role_restrictions:
             membership = Membership(
@@ -90,9 +88,7 @@ def ogdch_get_admin_organizations_for_user(context, data_dict):
         if organization.get("capacity") == CAPACITY_ADMIN
     ]
     log.debug(
-        "admin organizations for current user {}".format(
-            organizations_where_user_is_admin
-        )
+        f"admin organizations for current user {organizations_where_user_is_admin}"
     )
     return organizations_where_user_is_admin
 
@@ -103,9 +99,7 @@ def ogdch_user_list(context, data_dict):
     - for sysadmins: list all users
     - for organization admins: list all users of their organizations
     """
-    log.debug(
-        "user search called with context {} data_dict {}".format(context, data_dict)
-    )
+    log.debug(f"user search called with context {context} data_dict {data_dict}")
     current_user = context.get("user")
     if authz.is_sysadmin(current_user):
         admin_organization_restriction = None

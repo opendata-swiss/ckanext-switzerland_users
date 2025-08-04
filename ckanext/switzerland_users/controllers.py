@@ -127,7 +127,7 @@ def _prepare_organization_select_item(organization, is_suborganization=False):
     """format select one organization select item"""
     organization_text = get_localized_value_for_display(organization.get("title"))
     if is_suborganization:
-        organization_text = "-" + organization_text
+        organization_text = f"-{organization_text}"
     return {"text": organization_text, "value": organization.get("name")}
 
 
@@ -142,9 +142,9 @@ def _get_pagination(request, count, page_size):
     if "page" in tk.request.url:
         pagination_base_url = re.sub(r"page=\d", "page=", tk.request.url)
     elif "?" not in tk.request.url:
-        pagination_base_url = tk.request.url + "?page="
+        pagination_base_url = f"{tk.request.url}?page="
     else:
-        pagination_base_url = tk.request.url + "&page="
+        pagination_base_url = f"{tk.request.url}&page="
     return {
         "current": current,
         "total": total,
