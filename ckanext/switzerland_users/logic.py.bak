@@ -42,10 +42,10 @@ def get_memberships(admin_organization_restriction, q_role, q_organization):
     organizations_id_dict = get_organizations_id_dict()
     if organization_restrictions:
         organizations_ids = [id for id, organization in
-                             list(organizations_id_dict.items()) if
+                             organizations_id_dict.items() if
                              organization.name in organization_restrictions]
     else:
-        organizations_ids = list(organizations_id_dict.keys())
+        organizations_ids = organizations_id_dict.keys()
     log.debug("get memberships with organization restriction {}".format(
         organization_restrictions))
     members = model.Session.query(model.Member).filter(
@@ -113,18 +113,20 @@ def ogdch_user_list(context, data_dict):
                       username_dict[username].id, [])} for username in
                  user_list_names_only]
     if admin_organization_restriction:
-        user_list = [user for user in user_list if admin_membership_test(
+        user_list = filter(lambda user: admin_membership_test(
             user,
             admin_organization_restriction
-        )]
+        ), user_list)
     if q_organization:
-        user_list = [user for user in user_list if organization_query_membership_test(
+        user_list = filter(
+            lambda user: organization_query_membership_test(
                 user,
                 q_organization,
                 q_role
-            )]
+            ), user_list)
     if q_role and not q_organization:
-        user_list = [user for user in user_list if role_query_membership_test(user, q_role)]
+        user_list = filter(
+            lambda user: role_query_membership_test(user, q_role), user_list)
     return user_list
 
 

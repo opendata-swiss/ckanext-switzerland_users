@@ -3,7 +3,7 @@
 import logging
 import re
 import csv
-from io import StringIO
+from StringIO import StringIO
 
 from ckan import authz
 from ckan.controllers.user import UserController
