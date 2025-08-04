@@ -84,14 +84,16 @@ def index():
         "page": page,
         "q": q,
         "order_by": order_by,
+        "selected_organization": organization,
+        "selected_role": role,
         "organizations": organizations,
         "roles": roles,
     }
-    return base.render("user/list.html", extra_vars)
+    return base.render("user/ogdch_list.html", extra_vars)
 
 
 def _get_role_selection(current_user, userroles):
-    """get selection of roles"""
+    """Get the roles that the user is authorized to search for."""
     userroles_display = [{"text": _("Role: all"), "value": ""}]
     if authz.is_sysadmin(current_user):
         userroles_display.append({"text": "Sysadmin", "value": "sysadmin"})
@@ -100,7 +102,7 @@ def _get_role_selection(current_user, userroles):
 
 
 def _get_organization_selection(organization_tree, allowed_organizations):
-    """get selection of organizations"""
+    """Get the organizations that the user is allowed to search for users in."""
     if not allowed_organizations:
         return []
     organizations_display = [{"text": _("Organization: all"), "value": ""}]
@@ -120,10 +122,10 @@ def _get_organization_selection(organization_tree, allowed_organizations):
 
 
 def _prepare_organization_select_item(organization, is_suborganization=False):
-    """format select one organization select item"""
+    """Format one organization select item."""
     organization_text = get_localized_value_for_display(organization.get("title"))
     if is_suborganization:
-        organization_text = f"-{organization_text}"
+        organization_text = f"- {organization_text}"
     return {"text": organization_text, "value": organization.get("name")}
 
 
