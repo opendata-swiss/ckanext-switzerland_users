@@ -15,7 +15,7 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.ITranslation)
-    plugins.implements(plugins.IRoutes, inherit=True)
+    plugins.implements(plugins.IBlueprint)
 
     # ITranslation
 
@@ -45,6 +45,11 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
         return {
             "ogdch_list_user": ogdch_user_helpers.ogdch_list_user,
         }
+
+    # IBlueprint
+
+    def get_blueprint(self):
+        return []
 
     # IRouter
 
