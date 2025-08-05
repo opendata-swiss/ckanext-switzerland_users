@@ -39,10 +39,7 @@ def index():
     limit = int(request.args.get("limit", default_limit))
     offset = page_number * limit - limit
 
-    # get SQLAlchemy Query object from the action to avoid dictizing all
-    # existing users at once
     context: Context = {
-        "return_query": True,
         "user": current_user.name,
         "auth_user_obj": current_user,
     }
@@ -142,7 +139,6 @@ def download_csv():
         tk.abort(403, _("Not authorized to see this page"))
 
     context = {
-        "return_query": True,
         "user": current_user.name,
         "auth_user_obj": current_user,
     }
