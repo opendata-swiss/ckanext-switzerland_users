@@ -3,6 +3,8 @@ from collections import defaultdict, namedtuple
 
 import ckan.plugins.toolkit as tk
 from ckan import authz, model
+from sqlalchemy import case as _case
+from sqlalchemy import or_ as _or_
 
 Membership = namedtuple("Membership", ["organization", "capacity"])
 Organization = namedtuple("Organization", ["name", "title"])
@@ -13,13 +15,33 @@ CAPACITY_ADMIN = "admin"
 log = logging.getLogger(__name__)
 
 
-def get_username_dict():
-    """Get users with only minimal attributes and a simple query to avoid performance
-    issues
+def get_user_list(q, current_user):
+    """A simplified version of ckan.logic.action.get.user_list, which does not include
+    the extra search for packages created by each user. This improves performance.
     """
-    users = model.Session.query(model.User).all()
-    user_dict = {user.name: user for user in users}
-    return user_dict
+    query = model.Session.query(model.User)
+
+    # Filter out the site user
+    site_id = tk.config.get("ckan.site_id")
+    query = query.filter(model.User.name != site_id)
+
+    # Pass in any query the user has entered
+    query = model.User.search(q, query, user_name=current_user)
+    # Order by user.display_name: this is the default ordering.
+    query = query.order_by(
+        _case(
+            (
+                _or_(model.User.fullname.is_(None), model.User.fullname == ""),
+                model.User.name,
+            ),
+            else_=model.User.fullname,
+        )
+    )
+
+    # Filter out deleted users
+    query = query.filter(model.User.state != model.State.DELETED)
+
+    return query.all()
 
 
 def get_organizations_id_dict():
@@ -100,31 +122,31 @@ def ogdch_user_list(context, data_dict):
     """
     log.debug(f"user search called with context {context} data_dict {data_dict}")
     current_user = context.get("user")
+
     if authz.is_sysadmin(current_user):
         admin_organization_restriction = None
     else:
         admin_organization_restriction = tk.get_action(
             "ogdch_get_admin_organizations_for_user"
         )(context, data_dict)
+
     q = data_dict.get("q")
     q_organization = data_dict.get("organization")
     q_role = data_dict.get("role")
-    user_list_names_only = tk.get_action("user_list")(
-        context, {"q": q, "all_fields": False}
-    )
-    username_dict = get_username_dict()
+
+    user_object_list = get_user_list(q, current_user)
     membership_dict = get_memberships(
         admin_organization_restriction, q_role, q_organization
     )
     user_list = [
         {
-            "name": username[0],
-            "id": username_dict[username[0]].id,
-            "sysadmin": username_dict[username[0]].sysadmin,
-            "email": username_dict[username[0]].email,
-            "memberships": membership_dict.get(username_dict[username[0]].id, []),
+            "name": user.name,
+            "id": user.id,
+            "sysadmin": user.sysadmin,
+            "email": user.email,
+            "memberships": membership_dict.get(user.id, []),
         }
-        for username in user_list_names_only
+        for user in user_object_list
     ]
     if admin_organization_restriction:
         user_list = [
