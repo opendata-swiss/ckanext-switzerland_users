@@ -29,9 +29,8 @@ def index():
     """
     page_number = h.get_page_number(request.args)
     q = request.args.get("q", "")
-    # TODO: update deprecated params(), use args() instead
-    organization = request.params.get("organization", None)
-    role = request.params.get("role", None)
+    organization = request.args.get("organization", None)
+    role = request.args.get("role", None)
     order_by = request.args.get("order_by", "name")
     default_limit: int = config.get("ckan.user_list_limit")
     limit = int(request.args.get("limit", default_limit))
