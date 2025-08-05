@@ -11,7 +11,6 @@ from ckan.common import (
     current_user,
     request,
 )
-from ckan.lib.dictization import model_dictize
 from ckan.lib.helpers import Page
 from ckan.lib.helpers import helper_functions as h
 from ckan.types import Context
@@ -30,6 +29,7 @@ def index():
     """
     page_number = h.get_page_number(request.args)
     q = request.args.get("q", "")
+    # TODO: update deprecated params(), use args() instead
     organization = request.params.get("organization", None)
     role = request.params.get("role", None)
     order_by = request.args.get("order_by", "name")
