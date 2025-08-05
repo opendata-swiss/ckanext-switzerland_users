@@ -130,4 +130,29 @@ def _prepare_organization_select_item(organization, is_suborganization=False):
     return {"text": organization_text, "value": organization.get("name")}
 
 
+def csv():
+    if not authz.is_sysadmin(c.user):
+        tk.abort(403, _("Not authorized to see this page"))
+    tk.response.headers.update({"Content-type": "text/csv"})
+    context = {"user": c.user, "auth_user_obj": c.userobj}
+    users = tk.get_action("ogdch_user_list")(context, {})
+    content = StringIO()
+    writer = csv.writer(
+        content, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
+    )
+    writer.writerow([_("Username"), _("Email"), _("Role")])
+    for user in users:
+        email = user.get("email", "")
+        if not email:
+            email = ""
+        writer.writerow(
+            [
+                user["name"].encode("utf-8"),
+                email.encode("utf-8"),
+                ogdch_display_memberships(user).encode("utf-8"),
+            ]
+        )
+    return content.getvalue()
+
+
 user.add_url_rule("/", view_func=index, strict_slashes=False)
