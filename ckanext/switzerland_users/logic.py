@@ -38,7 +38,7 @@ def get_organizations_id_dict():
 
 
 def get_memberships(admin_organization_restriction, q_role, q_organization):
-    """get members form the member table; filter out restrictions"""
+    """Get members from the member table; filter out restrictions"""
     organization_restrictions = admin_organization_restriction or []
     if q_organization:
         organization_restrictions.append(q_organization)
@@ -77,7 +77,7 @@ def get_memberships(admin_organization_restriction, q_role, q_organization):
 
 
 def ogdch_get_admin_organizations_for_user(context, data_dict):
-    """Get list of organization where a user is admin of"""
+    """Get list of organization of which a user is admin"""
     organizations_for_user = tk.get_action("organization_list_for_user")(
         context, data_dict
     )
@@ -146,8 +146,9 @@ def ogdch_user_list(context, data_dict):
 
 
 def admin_membership_test(user, organization_restrictions):
-    """if organizations are restricted, filter out sysadmin users and
-    users with no memberships in restricted organizations"""
+    """If organizations are restricted, filter out sysadmin users and users with no
+    memberships in restricted organizations
+    """
     if not organization_restrictions:
         return True
     if user["sysadmin"]:
@@ -163,8 +164,7 @@ def admin_membership_test(user, organization_restrictions):
 
 
 def organization_query_membership_test(user, q_organization, q_role):
-    """filter out sysadmin users and users that have
-    no membership in the organization"""
+    """Filter out sysadmin users and users that have no membership in the organization"""
     if not q_organization:
         return True
     if user["sysadmin"]:
@@ -188,8 +188,7 @@ def organization_query_membership_test(user, q_organization, q_role):
 
 
 def role_query_membership_test(user, q_role):
-    """filter out sysadmin users and users that
-    have no membership in the organization"""
+    """Filter out sysadmin users and users that have no membership in the organization"""
     if q_role == CAPACITY_SYSADMIN:
         if user["sysadmin"]:
             return True
