@@ -1,4 +1,6 @@
+import csv
 import logging
+from io import StringIO
 from typing import Any
 
 import ckan.lib.base as base
@@ -14,9 +16,10 @@ from ckan.common import (
 from ckan.lib.helpers import Page
 from ckan.lib.helpers import helper_functions as h
 from ckan.types import Context
-from flask import Blueprint
+from flask import Blueprint, make_response
 
 from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for_display
+from ckanext.switzerland_users.helpers import ogdch_display_memberships
 
 log = logging.getLogger(__name__)
 
@@ -130,12 +133,21 @@ def _prepare_organization_select_item(organization, is_suborganization=False):
     return {"text": organization_text, "value": organization.get("name")}
 
 
-def csv():
-    if not authz.is_sysadmin(c.user):
+def download_csv():
+    is_sysadmin = False
+    if current_user.is_authenticated:
+        is_sysadmin = authz.is_sysadmin(current_user.name)
+
+    if not is_sysadmin:
         tk.abort(403, _("Not authorized to see this page"))
-    tk.response.headers.update({"Content-type": "text/csv"})
-    context = {"user": c.user, "auth_user_obj": c.userobj}
+
+    context = {
+        "return_query": True,
+        "user": current_user.name,
+        "auth_user_obj": current_user,
+    }
     users = tk.get_action("ogdch_user_list")(context, {})
+
     content = StringIO()
     writer = csv.writer(
         content, delimiter=",", quotechar='"', quoting=csv.QUOTE_MINIMAL
@@ -147,12 +159,17 @@ def csv():
             email = ""
         writer.writerow(
             [
-                user["name"].encode("utf-8"),
-                email.encode("utf-8"),
-                ogdch_display_memberships(user).encode("utf-8"),
+                user["name"],
+                email,
+                ogdch_display_memberships(user),
             ]
         )
-    return content.getvalue()
+
+    response = make_response(content.getvalue())
+    response.headers.update({"Content-type": "text/csv"})
+
+    return response
 
 
 user.add_url_rule("/", view_func=index, strict_slashes=False)
+user.add_url_rule("/users_csv", view_func=download_csv)

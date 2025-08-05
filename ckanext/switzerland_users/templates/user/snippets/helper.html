@@ -12,7 +12,7 @@
     in the top level organization') }}</p>
     {% set is_sysadmin = h.check_access('sysadmin') %}
     {% if is_sysadmin %}
-      <a href="{{ h.url_for('/users_csv') }}"
+      <a href="{{ h.url_for('ogdch_users_blueprint.download_csv') }}"
          class="btn btn-primary btn-xs" role="button" target="_blank"
          download="Users - {{ c.env }}.csv">
         <i class="fa fa-arrow-circle-o-down"></i>

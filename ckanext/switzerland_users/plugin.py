@@ -51,15 +51,3 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
 
     def get_blueprint(self):
         return [ogdch_user_blueprint]
-
-    # IRouter
-
-    def before_map(self, map):
-        """adding custom routes to the ckan mapping"""
-        map.connect(
-            "/users_csv",
-            controller="ckanext.switzerland_users.controllers:OgdchUserController",
-            action="csv",
-        )
-
-        return map
