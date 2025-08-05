@@ -72,12 +72,14 @@ def index():
     )
 
     page = Page(
-        collection=users_list,
+        collection=users_list[offset : offset + limit],
         page=page_number,
         presliced_list=True,
         url=h.pager_url,
         item_count=len(users_list),
         items_per_page=limit,
+        organization=organization,
+        role=role,
     )
 
     extra_vars: dict[str, Any] = {
