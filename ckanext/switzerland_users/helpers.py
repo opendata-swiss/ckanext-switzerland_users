@@ -18,7 +18,7 @@ def ogdch_list_user(user, maxlength=0):
                 link_to(
                     text,
                     url_for(
-                        "organization_read", action="read", id=role.organization.name
+                        "organization.read", action="read", id=role.organization.name
                     ),
                 )
             )
