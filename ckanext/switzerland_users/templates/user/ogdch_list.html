@@ -28,7 +28,7 @@
             {% set user_display =  h.ogdch_list_user(user) %}
             <tr>
               <td class="media">
-                {{ h.linked_user(user.name, maxlength=20) }}
+                {{ user_display.get('link') }}
               </td>
               {% if is_sysadmin %}
               <td>

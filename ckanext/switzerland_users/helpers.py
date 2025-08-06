@@ -1,4 +1,4 @@
-from ckan.lib.helpers import link_to, url_for
+from ckan.lib.helpers import link_to, linked_user, url_for
 
 from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for_display
 
@@ -18,7 +18,7 @@ def ogdch_list_user(user, maxlength=0):
                 link_to(
                     text,
                     url_for(
-                        "organization_read", action="read", id=role.organization.name
+                        "organization.read", action="read", id=role.organization.name
                     ),
                 )
             )
@@ -26,7 +26,7 @@ def ogdch_list_user(user, maxlength=0):
     if not display_email:
         display_email = ""
     return {
-        "link": link_to(user["name"], url_for("user.read", id=user["name"])),
+        "link": linked_user(user.get("name"), maxlength=20),
         "email": display_email,
         "userroles": memberships_display,
     }

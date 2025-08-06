@@ -56,6 +56,12 @@ def index():
     except logic.NotAuthorized:
         base.abort(403, _("Not authorized to see this page"))
 
+    user_admin_organizations = tk.get_action("ogdch_get_admin_organizations_for_user")(
+        context, {}
+    )
+    if not user_admin_organizations:
+        tk.abort(403, _("Not authorized to see this page"))
+
     users_list = logic.get_action("ogdch_user_list")(context, data_dict)
     organization_tree = tk.get_action("group_tree")(context, {"type": "organization"})
     userroles = tk.get_action("member_roles_list")(
