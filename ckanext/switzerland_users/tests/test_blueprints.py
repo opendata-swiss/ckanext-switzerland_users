@@ -1,9 +1,6 @@
-from pprint import pprint
-from bs4 import BeautifulSoup
-
 import pytest
+from bs4 import BeautifulSoup
 from ckan.lib.helpers import url_for
-
 
 prepare_role_filter_data = [
     (

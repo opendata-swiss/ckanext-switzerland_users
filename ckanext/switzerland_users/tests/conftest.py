@@ -1,7 +1,7 @@
-import pytest
 import ckan.model as model
 import ckan.plugins.toolkit as tk
-from ckan.tests import factories, helpers
+import pytest
+from ckan.tests import factories
 
 
 def get_context():
