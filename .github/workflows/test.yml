@@ -55,6 +55,8 @@ jobs:
           pip install -r requirements.txt
           pip install -r dev-requirements.txt
           pip install -e .
+          pip install -e git+https://github.com/opendata-swiss/ckanext-dcatapchharvest.git@feat/upgrade_to_py3#egg=ckanext-dcatapchharvest
+          pip install -r https://raw.githubusercontent.com/opendata-swiss/ckanext-dcatapchharvest/feat/upgrade_to_py3/requirements.txt
           pip install -e git+https://github.com/ckan/ckanext-fluent.git#egg=ckanext-fluent
           pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest
           pip install -r https://raw.githubusercontent.com/ckan/ckanext-harvest/master/requirements.txt
