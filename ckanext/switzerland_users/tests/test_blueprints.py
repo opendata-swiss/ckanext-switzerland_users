@@ -203,6 +203,21 @@ class TestBlueprints(object):
         assert response.status_code == 403
         assert "Not authorized to see this page" in response.body
 
+    def test_admin_can_only_access_own_org(self, app, users, sysadmins):
+        user = users[0]  # admin of org_0, not a sysadmin
+        user_headers = {"Authorization": user["token"]}
+
+        fullnames, usernames = _request_user_list_and_get_users(app, user_headers)
+
+        # We are filtering for the organization that the user is admin of, so sysadmins
+        # should not be included in the list even if they are members of this
+        # organization
+        assert sorted(usernames) == [
+            "org_0_admin",
+            "org_0_editor",
+            "org_0_member",
+        ]
+
     def test_anonymous_user_cannot_access_user_list(self, app, users, sysadmins):
         url = url_for("ogdch_users_blueprint.index")
 
