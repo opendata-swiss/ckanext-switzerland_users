@@ -62,6 +62,7 @@ jobs:
           pip install -e git+https://github.com/ckan/ckanext-fluent.git#egg=ckanext-fluent
           pip install -e git+https://github.com/ckan/ckanext-harvest.git#egg=ckanext-harvest
           pip install -r https://raw.githubusercontent.com/ckan/ckanext-harvest/master/requirements.txt
+          pip install -e git+https://github.com/opendata-swiss/ckanext-harvester_dashboard.git@feat/upgrade_to_py3#egg=ckanext-harvester_dashboard
           pip install -e git+https://github.com/ckan/ckanext-hierarchy.git#egg=ckanext-hierarchy
           pip install -r https://raw.githubusercontent.com/ckan/ckanext-hierarchy/master/requirements.txt
           pip install -e git+https://github.com/opendata-swiss/ckanext-password-policy.git@feat/upgrade_to_py3#egg=ckanext-password-policy

@@ -117,7 +117,10 @@ def _request_user_list_and_get_users(app, auth_headers, role=None, organization=
     return fullnames, usernames
 
 
-@pytest.mark.ckan_config("ckan.plugins", "ogdch ogdch_users ogdch_org ogdch_showcase")
+@pytest.mark.ckan_config(
+    "ckan.plugins",
+    "ogdch ogdch_users ogdch_org ogdch_showcase harvester_dashboard harvest",
+)
 @pytest.mark.ckan_config("ckan.auth.public_user_details", False)
 @pytest.mark.ckan_config("ckanext.switzerland.send_email_on_user_registration", False)
 @pytest.mark.usefixtures("with_plugins", "clean_db", "clean_index")

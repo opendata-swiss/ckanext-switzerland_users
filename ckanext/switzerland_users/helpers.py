@@ -1,4 +1,3 @@
-import ckan.plugins.toolkit as tk
 from ckan.lib.helpers import link_to, linked_user, url_for
 
 from ckanext.switzerland.helpers.frontend_helpers import get_localized_value_for_display
@@ -49,7 +48,3 @@ def ogdch_display_memberships(user):
         memberships_display = ", ".join(memberships_display)
 
     return memberships_display
-
-
-def ogdch_get_env():
-    return tk.config.get("ckanext.switzerland_users.env", "test")
