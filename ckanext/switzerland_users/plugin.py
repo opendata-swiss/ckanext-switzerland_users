@@ -45,6 +45,7 @@ class OgdchUsersPlugin(plugins.SingletonPlugin, DefaultTranslation):
         """
         return {
             "ogdch_list_user": ogdch_user_helpers.ogdch_list_user,
+            "ogdch_get_env": ogdch_user_helpers.ogdch_get_env,
         }
 
     # IBlueprint
