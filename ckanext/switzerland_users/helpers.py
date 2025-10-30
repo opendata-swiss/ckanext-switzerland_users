@@ -17,9 +17,7 @@ def ogdch_list_user(user, maxlength=0):
             memberships_display.append(
                 link_to(
                     text,
-                    url_for(
-                        "organization.read", action="read", id=role.organization.name
-                    ),
+                    url_for("organization.read", id=role.organization.name),
                 )
             )
     display_email = user.get("email")
