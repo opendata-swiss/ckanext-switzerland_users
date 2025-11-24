@@ -79,6 +79,5 @@ jobs:
       - name: Setup extension
         run: |
           ckan -c test.ini db init
-          ckan -c test.ini db pending-migrations --apply
       - name: Run tests
         run: pytest --ckan-ini=test.ini --disable-warnings -v --cov=ckanext.switzerland_users ckanext/switzerland_users
