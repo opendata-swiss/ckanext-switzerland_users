@@ -18,13 +18,13 @@
           <tr>
             <th>{{ _('Username') }}</th>
             {% if is_sysadmin %}
-            <th>{{ _('Email') }}</th>
+              <th>{{ _('Email') }}</th>
             {% endif %}
             <th>{{ _('Role') }}</th>
           </tr>
         </thead>
         <tbody>
-          {% for user in c.page.users %}
+          {% for user in page.items %}
             {% set user_display =  h.ogdch_list_user(user) %}
             <tr>
               <td class="media">
@@ -48,17 +48,19 @@
           {% endfor %}
         </tbody>
       </table>
-      {% if not c.page.users %}
+      {% if not page.items %}
         {{ _('No users match your search') }}
       {% endif %}
       {% endblock %}
     </div>
-    {% snippet 'user/snippets/pagination.html', q=q %}
+    {% block page_pagination %}
+      {{ page.pager(q=q, order_by=order_by) }}
+    {% endblock %}
   </article>
 {% endblock %}
 
 {% block secondary_content %}
-  {% snippet 'user/snippets/user_search.html', q=q %}
+  {% snippet 'user/snippets/user_search.html', q=q, organizations=organizations, selected_organization=selected_organization, roles=roles, selected_role=selected_role %}
   {% snippet 'user/snippets/helper.html' %}
 {% endblock %}
 
